@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -20,4 +22,7 @@ public class Event {
   @Column(nullable = false)
   private String title;
   private LocalDateTime dateTime;
+
+  @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
+  private Set<Note> notes = new HashSet<>();
 }

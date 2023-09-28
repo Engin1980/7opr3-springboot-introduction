@@ -1,7 +1,6 @@
 package cz.osu.kip.eventReminder.controllers;
 
 import cz.osu.kip.eventReminder.controllers.jtos.EventJTO;
-import cz.osu.kip.eventReminder.model.Event;
 import cz.osu.kip.eventReminder.services.EventService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,20 +9,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import jdk.jfr.Description;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.Singular;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/event")
@@ -39,8 +31,8 @@ public class EventController {
   }
 
   @GetMapping
-  public Event getById(@RequestParam int eventId) {
-    Event ret = this.eventService.getById(eventId).orElse(null);
+  public EventJTO getById(@RequestParam int eventId) {
+    EventJTO ret = this.eventService.getById(eventId);
     return ret;
   }
 
@@ -52,6 +44,11 @@ public class EventController {
   @DeleteMapping
   public void delete(@RequestParam int eventId){
     this.eventService.delete(eventId);
+  }
+
+  @GetMapping("/addNote")
+  public void addTag(@RequestParam int eventId, @RequestParam String noteText){
+    this.eventService.addNote(eventId, noteText);
   }
 
 // ***
@@ -97,8 +94,8 @@ public class EventController {
 //  }
 
   @GetMapping("/list")
-  public List<Event> list() {
-    List<Event> ret = this.eventService.getAll();
+  public List<EventJTO> list() {
+    List<EventJTO> ret = this.eventService.getAll();
     return ret;
   }
 

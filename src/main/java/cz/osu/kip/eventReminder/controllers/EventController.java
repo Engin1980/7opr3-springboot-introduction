@@ -2,8 +2,17 @@ package cz.osu.kip.eventReminder.controllers;
 
 import cz.osu.kip.eventReminder.model.Event;
 import cz.osu.kip.eventReminder.services.EventService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import jdk.jfr.Description;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.Singular;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -81,11 +90,42 @@ public class EventController {
     List<Event> ret = this.eventService.getAll();
     return ret;
   }
+
+@Operation(summary = "Creates a new event by its title and date-time")
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "The event has been succesfully created.",
+                content = {
+                        @Content(mediaType = "text/plain", schema = @Schema(implementation = Integer.class))
+                }),
+        @ApiResponse(responseCode = "404", description = "Event not created due to bad data.",
+                content = {
+                        @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))
+                })
+})
+@PostMapping(value = "/createDocumented", produces = "text/plain", consumes = "application/json")
+public int createDocumented(
+        @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                description = "Event to add, with non-empty title and event date-time",
+                required = true, content = @Content(schema = @Schema(implementation = EventDataDocumented.class)))
+        EventDataDocumented data) {
+  int ret = this.eventService.create(data.getTitle(), data.getDateTime());
+  return ret;
+}
 }
 
 @Getter
 @Setter
 class EventData {
   private String title;
+  private LocalDateTime dateTime;
+}
+
+@Getter
+@Setter
+class EventDataDocumented {
+  @NotBlank
+  @Size(min = 1, max = 255)
+  private String title;
+
   private LocalDateTime dateTime;
 }

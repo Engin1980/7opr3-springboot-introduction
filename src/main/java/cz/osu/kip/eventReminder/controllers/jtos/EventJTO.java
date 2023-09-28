@@ -1,6 +1,6 @@
-package cz.osu.kip.eventReminder.model;
+package cz.osu.kip.eventReminder.controllers.jtos;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,14 +10,10 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class Event {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+@AllArgsConstructor
+public class EventJTO {
   private int eventId;
-  @Column(nullable = false)
   private String title;
   private LocalDateTime dateTime;
 }

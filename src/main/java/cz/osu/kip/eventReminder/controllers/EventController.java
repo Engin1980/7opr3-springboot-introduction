@@ -1,5 +1,6 @@
 package cz.osu.kip.eventReminder.controllers;
 
+import cz.osu.kip.eventReminder.controllers.jtos.EventJTO;
 import cz.osu.kip.eventReminder.model.Event;
 import cz.osu.kip.eventReminder.services.EventService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,6 +42,16 @@ public class EventController {
   public Event getById(@RequestParam int eventId) {
     Event ret = this.eventService.getById(eventId).orElse(null);
     return ret;
+  }
+
+  @PutMapping
+  public void update(@RequestBody EventJTO event){
+    this.eventService.update(event);
+  }
+
+  @DeleteMapping
+  public void delete(@RequestParam int eventId){
+    this.eventService.delete(eventId);
   }
 
 // ***

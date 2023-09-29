@@ -44,7 +44,7 @@ public class EventController {
     return ret;
   }
 
-  @PutMapping
+  @PatchMapping
   public void update(@RequestBody EventJTO event){
     this.eventService.update(event);
   }

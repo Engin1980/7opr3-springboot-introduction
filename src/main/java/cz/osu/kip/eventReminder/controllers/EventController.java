@@ -36,7 +36,7 @@ public class EventController {
     return ret;
   }
 
-  @PutMapping
+  @PatchMapping
   public void update(@RequestBody EventJTO event){
     this.eventService.update(event);
   }
@@ -46,7 +46,7 @@ public class EventController {
     this.eventService.delete(eventId);
   }
 
-  @GetMapping("/addNote")
+  @PatchMapping("/addNote")
   public void addTag(@RequestParam int eventId, @RequestParam String noteText){
     this.eventService.addNote(eventId, noteText);
   }

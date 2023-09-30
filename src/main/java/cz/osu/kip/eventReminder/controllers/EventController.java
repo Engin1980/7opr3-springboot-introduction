@@ -46,9 +46,14 @@ public class EventController {
     this.eventService.delete(eventId);
   }
 
-  @PatchMapping("/addNote")
-  public void addTag(@RequestParam int eventId, @RequestParam String noteText){
+  @PostMapping("/note")
+  public void addNote(@RequestParam int eventId, @RequestParam String noteText){
     this.eventService.addNote(eventId, noteText);
+  }
+
+  @DeleteMapping("/note")
+  public void deleteNote(@RequestParam int noteId){
+    this.eventService.deleteNote(noteId);
   }
 
 // ***

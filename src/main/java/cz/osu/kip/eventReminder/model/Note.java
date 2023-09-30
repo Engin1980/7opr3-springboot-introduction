@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Getter
@@ -17,6 +18,7 @@ public class Note {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int tagId;
 
+  @Column(length = 128, nullable = false)
   private String text;
 
   @ManyToOne

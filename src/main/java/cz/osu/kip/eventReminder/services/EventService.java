@@ -67,4 +67,9 @@ public class EventService {
     Note note = new Note(EMPTY_ID, noteText, event);
     this.noteRepository.save(note);
   }
+
+  public void deleteNote(int noteId){
+    Note note = this.noteRepository.getReferenceById(noteId);
+    this.noteRepository.delete(note);
+  }
 }
